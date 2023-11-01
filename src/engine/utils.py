@@ -72,10 +72,6 @@ def test_step(model: torch.nn.Module,
       test_ce_loss += ce_loss.item()
       test_total_loss += total_loss.item() 
 
-      optimizer.zero_grad()
-      total_loss.backward()
-      optimizer.step()
-
   # Adjust metrics to get average loss and accuracy per batch 
   test_rfcm_loss /= len(dataloader)
   test_ce_loss /= len(dataloader)

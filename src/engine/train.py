@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import argparse
 import numpy as np
 import torch
 from tqdm import tqdm
@@ -13,18 +14,47 @@ from src.utils.datasetup import SegmentationDataset, create_dataset, custom_samp
 import src.utils.transforms as segtrans
 
 # Hyperparameters
-alpha = 0.03
-BATCH_SIZE = 8
-C = 10
+parser = argparse.ArgumentParser()
+parser.add_argument("--alpha",
+                    type=float, 
+                    default=0.03)
+parser.add_argument("--BATCH_SIZE", 
+                    type=int, 
+                    default=16)
+parser.add_argument("--C", 
+                    type=float, 
+                    default=10, 
+                    help="Number of classes")
+parser.add_argument("--channels", 
+                    type=int,
+                    nargs='+',
+                    default=[5, 16, 32, 64], 
+                    help="UNet encoder channels")
+parser.add_argument("--DEPTH_DIM", 
+                    action="store_true", 
+                    help="Include depth dimension")
+parser.add_argument("--dataset_name", 
+                    type=str,
+                    default="ABRACOS2_3F", 
+                    help="Name of the dataset")
+parser.add_argument("--data_path", 
+                    type=str, 
+                    default="D:/Stage_IRD_2023/semi_supervised_datasets_final",
+                    help="Path to data")
+parser.add_argument("--forcing_alpha",
+                    type=float, 
+                    default=1)
+parser.add_argument("--LEARNING_RATE", 
+                    type=float, 
+                    default=1e-3)
+parser.add_argument("--NUM_WORKERS", 
+                    type=int, 
+                    default=os.cpu_count())
+
+args = parser.parse_args()
+
 centers = [[0.01875, 0.05625, -0.01875, -0.01875, -0.01875], [0, 0, 0, 0, 0]]
-channels = [5, 16, 32]
 class_ids =  [-100, 0, 1, 2, 3, 4, 5, 6, 7]
-DEPTH_DIM = False
-dataset_name = "ABRACOS2_3F"
-data_path = Path("D:/Stage_IRD_2023/semi_supervised_datasets_final")
-forcing_alpha = 1
-LEARNING_RATE = 1e-3
-NUM_WORKERS = 0
 
 # Setting device agnostic code
 device = "cuda" if torch.cuda.is_available() else "cpu"
