@@ -1,0 +1,14 @@
+# external requirements
+
+hydra-core
+matplotlib
+numpy
+scikit-learn
+tensorboard
+torchmetrics
+torchvision
+tqdm
+
+# only for data extraction 
+#h5py
+#shapely (visualization of patches)

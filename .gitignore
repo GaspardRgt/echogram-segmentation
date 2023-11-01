@@ -1,0 +1,13 @@
+runs/
+__pycache__/
+src.egg-info/
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
